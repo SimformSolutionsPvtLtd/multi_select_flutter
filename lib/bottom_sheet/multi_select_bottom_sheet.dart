@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../util/multi_select_item.dart';
+
 import '../util/multi_select_actions.dart';
+import '../util/multi_select_item.dart';
 import '../util/multi_select_list_type.dart';
 
 /// A bottom sheet widget containing either a classic checkbox style list, or a chip style list.
@@ -79,6 +80,8 @@ class MultiSelectBottomSheet<T> extends StatefulWidget
   /// Set the color of the check in the checkbox
   final Color? checkColor;
 
+  final Widget emptyListPlaceHolder;
+
   MultiSelectBottomSheet({
     required this.items,
     required this.initialValue,
@@ -104,6 +107,7 @@ class MultiSelectBottomSheet<T> extends StatefulWidget
     this.selectedItemsTextStyle,
     this.separateSelectedItems = false,
     this.checkColor,
+    required this.emptyListPlaceHolder,
   });
 
   @override
@@ -301,13 +305,15 @@ class _MultiSelectBottomSheetState<T> extends State<MultiSelectBottomSheet<T>> {
               Expanded(
                 child: widget.listType == null ||
                         widget.listType == MultiSelectListType.LIST
-                    ? ListView.builder(
-                        controller: scrollController,
-                        itemCount: _items.length,
-                        itemBuilder: (context, index) {
-                          return _buildListItem(_items[index]);
-                        },
-                      )
+                    ? (_items.length == 0)
+                        ? widget.emptyListPlaceHolder
+                        : ListView.builder(
+                            controller: scrollController,
+                            itemCount: _items.length,
+                            itemBuilder: (context, index) {
+                              return _buildListItem(_items[index]);
+                            },
+                          )
                     : SingleChildScrollView(
                         controller: scrollController,
                         child: Container(
