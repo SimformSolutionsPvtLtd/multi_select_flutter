@@ -80,35 +80,42 @@ class MultiSelectBottomSheet<T> extends StatefulWidget
   /// Set the color of the check in the checkbox
   final Color? checkColor;
 
-  final Widget emptyListPlaceHolder;
+  final Widget? emptyListPlaceHolder;
 
-  MultiSelectBottomSheet({
-    required this.items,
-    required this.initialValue,
-    this.title,
-    this.onSelectionChanged,
-    this.onConfirm,
-    this.listType,
-    this.cancelText,
-    this.confirmText,
-    this.searchable = false,
-    this.selectedColor,
-    this.initialChildSize,
-    this.minChildSize,
-    this.maxChildSize,
-    this.colorator,
-    this.unselectedColor,
-    this.searchIcon,
-    this.closeSearchIcon,
-    this.itemsTextStyle,
-    this.searchTextStyle,
-    this.searchHint,
-    this.searchHintStyle,
-    this.selectedItemsTextStyle,
-    this.separateSelectedItems = false,
-    this.checkColor,
-    required this.emptyListPlaceHolder,
-  });
+  final void Function(List<T>)? clearAll;
+
+  final bool? enableClearAll;
+
+  MultiSelectBottomSheet(
+      {required this.items,
+      required this.initialValue,
+      this.title,
+      this.onSelectionChanged,
+      this.onConfirm,
+      this.listType,
+      this.cancelText,
+      this.confirmText,
+      this.searchable = false,
+      this.selectedColor,
+      this.initialChildSize,
+      this.minChildSize,
+      this.maxChildSize,
+      this.colorator,
+      this.unselectedColor,
+      this.searchIcon,
+      this.closeSearchIcon,
+      this.itemsTextStyle,
+      this.searchTextStyle,
+      this.searchHint,
+      this.searchHintStyle,
+      this.selectedItemsTextStyle,
+      this.separateSelectedItems = false,
+      this.checkColor,
+      this.emptyListPlaceHolder,
+      this.clearAll,
+      this.enableClearAll = false})
+      : assert(!(enableClearAll == true && clearAll == null),
+            'clearAll cannot be null while enableClearAll is true');
 
   @override
   _MultiSelectBottomSheetState<T> createState() =>
@@ -306,7 +313,9 @@ class _MultiSelectBottomSheetState<T> extends State<MultiSelectBottomSheet<T>> {
                 child: widget.listType == null ||
                         widget.listType == MultiSelectListType.LIST
                     ? (_items.length == 0)
-                        ? widget.emptyListPlaceHolder
+                        ? (widget.emptyListPlaceHolder == null)
+                            ? Center(child: Text("No data found"))
+                            : widget.emptyListPlaceHolder!
                         : ListView.builder(
                             controller: scrollController,
                             itemCount: _items.length,
@@ -347,7 +356,23 @@ class _MultiSelectBottomSheetState<T> extends State<MultiSelectBottomSheet<T>> {
                             ),
                       ),
                     ),
-                    SizedBox(width: 10),
+                    SizedBox(width: 5),
+                    Visibility(
+                      visible: (_items.length > 0 &&
+                          (widget.enableClearAll ?? false)),
+                      child: Expanded(
+                        child: TextButton(
+                            onPressed: () {
+                              setState(() {
+                                widget.clearAll!(_selectedValues);
+                                _selectedValues.clear();
+                              });
+                            },
+                            child: Text("CLEAR ALL",
+                                style: TextStyle(color: widget.checkColor))),
+                      ),
+                    ),
+                    SizedBox(width: 5),
                     Expanded(
                       child: TextButton(
                         onPressed: () {
