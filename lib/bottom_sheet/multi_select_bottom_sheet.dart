@@ -86,35 +86,51 @@ class MultiSelectBottomSheet<T> extends StatefulWidget
 
   final bool? enableClearAll;
 
-  MultiSelectBottomSheet(
-      {required this.items,
-      required this.initialValue,
-      this.title,
-      this.onSelectionChanged,
-      this.onConfirm,
-      this.listType,
-      this.cancelText,
-      this.confirmText,
-      this.searchable = false,
-      this.selectedColor,
-      this.initialChildSize,
-      this.minChildSize,
-      this.maxChildSize,
-      this.colorator,
-      this.unselectedColor,
-      this.searchIcon,
-      this.closeSearchIcon,
-      this.itemsTextStyle,
-      this.searchTextStyle,
-      this.searchHint,
-      this.searchHintStyle,
-      this.selectedItemsTextStyle,
-      this.separateSelectedItems = false,
-      this.checkColor,
-      this.emptyListPlaceHolder,
-      this.clearAll,
-      this.enableClearAll = false})
-      : assert(!(enableClearAll == true && clearAll == null),
+  ///This function is used to compare selected items with Items list and return
+  /// List of Multi select items to create chips
+  /// e.g
+  /// checkCondition: (selectedItems, itemsList) {
+  ///                         if (itemsList.isEmpty) {
+  ///                          return [];
+  ///                         }
+  ///                         return selectedItems
+  ///                            .map((e) => itemsList.firstWhere(
+  ///                                 (element) => e.id == element.value.id))
+  ///                            .toList();
+  ///
+  final List<MultiSelectItem<T>>? Function(List<T>, List<MultiSelectItem<T>>)?
+      checkCondition;
+
+  MultiSelectBottomSheet({
+    required this.items,
+    required this.initialValue,
+    this.title,
+    this.onSelectionChanged,
+    this.onConfirm,
+    this.listType,
+    this.cancelText,
+    this.confirmText,
+    this.searchable = false,
+    this.selectedColor,
+    this.initialChildSize,
+    this.minChildSize,
+    this.maxChildSize,
+    this.colorator,
+    this.unselectedColor,
+    this.searchIcon,
+    this.closeSearchIcon,
+    this.itemsTextStyle,
+    this.searchTextStyle,
+    this.searchHint,
+    this.searchHintStyle,
+    this.selectedItemsTextStyle,
+    this.separateSelectedItems = false,
+    this.checkColor,
+    this.emptyListPlaceHolder,
+    this.clearAll,
+    this.enableClearAll = false,
+    this.checkCondition,
+  }) : assert(!(enableClearAll == true && clearAll == null),
             'clearAll cannot be null while enableClearAll is true');
 
   @override

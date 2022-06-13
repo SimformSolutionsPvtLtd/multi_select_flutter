@@ -111,6 +111,9 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
 
   final bool enableClearAll;
 
+  final List<MultiSelectItem<V>>? Function(List<V>, List<MultiSelectItem<V>>)?
+      checkCondition;
+
   final AutovalidateMode autovalidateMode;
   final FormFieldValidator<List<V>>? validator;
   final FormFieldSetter<List<V>>? onSaved;
@@ -155,7 +158,8 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
       this.validator,
       this.autovalidateMode = AutovalidateMode.disabled,
       this.clearAll,
-      this.enableClearAll = false})
+      this.enableClearAll = false,
+        this.checkCondition})
       : assert(!(enableClearAll == true && clearAll == null),
             'clearAll cannot be null while enableClearAll is true'),
         super(
@@ -200,7 +204,9 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
                       shape: shape,
                       checkColor: checkColor,
                       clearAll: clearAll,
-                      enableClearAll: enableClearAll);
+                      enableClearAll: enableClearAll,
+                    checkCondition: checkCondition,
+                  );
               return _MultiSelectBottomSheetFieldView<V?>._withState(
                   view as _MultiSelectBottomSheetFieldView<V?>, state);
             });
@@ -243,6 +249,8 @@ class _MultiSelectBottomSheetFieldView<V> extends StatefulWidget {
   Widget? emptyListPlaceHolder;
   final void Function(List<V>)? clearAll;
   final bool enableClearAll;
+  final List<MultiSelectItem<V>>? Function(List<V>, List<MultiSelectItem<V>>)?
+  checkCondition;
 
   _MultiSelectBottomSheetFieldView(
       {required this.items,
@@ -278,7 +286,9 @@ class _MultiSelectBottomSheetFieldView<V> extends StatefulWidget {
       this.separateSelectedItems = false,
       this.checkColor,
       this.clearAll,
-      this.enableClearAll = false})
+      this.enableClearAll = false,
+        this.checkCondition
+      })
       : assert(!(enableClearAll == true && clearAll == null),
             'clearAll cannot be null while enableClearAll is true');
 
@@ -320,6 +330,7 @@ class _MultiSelectBottomSheetFieldView<V> extends StatefulWidget {
         clearAll = field.clearAll,
         state = state,
         enableClearAll = field.enableClearAll,
+        checkCondition = field.checkCondition,
         assert(!(field.enableClearAll == true && field.clearAll == null),
             'clearAll cannot be null while enableClearAll is true');
 
@@ -336,16 +347,18 @@ class __MultiSelectBottomSheetFieldViewState<V>
   void initState() {
     super.initState();
     if (widget.initialValue != null) {
-      _selectedItems.addAll(widget.initialValue!);
+      _selectedItems = widget.initialValue!;
     }
   }
 
   Widget _buildInheritedChipDisplay() {
     List<MultiSelectItem<V>?> chipDisplayItems = [];
-    chipDisplayItems = _selectedItems
+    chipDisplayItems = widget.checkCondition == null
+        ? _selectedItems
         .map((e) =>
-            widget.items.firstWhereOrNull((element) => e == element.value))
-        .toList();
+        widget.items.firstWhereOrNull((element) => e == element.value))
+        .toList()
+        : widget.checkCondition!(_selectedItems, widget.items) ?? [];
     chipDisplayItems.removeWhere((element) => element == null);
     if (widget.chipDisplay != null) {
       // if user has specified a chipDisplay, use its params
