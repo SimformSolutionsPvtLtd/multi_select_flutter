@@ -159,7 +159,7 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
       this.autovalidateMode = AutovalidateMode.disabled,
       this.clearAll,
       this.enableClearAll = false,
-        this.checkCondition})
+      this.checkCondition})
       : assert(!(enableClearAll == true && clearAll == null),
             'clearAll cannot be null while enableClearAll is true'),
         super(
@@ -171,42 +171,42 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
             builder: (FormFieldState<List<V>> state) {
               _MultiSelectBottomSheetFieldView view =
                   _MultiSelectBottomSheetFieldView<V>(
-                      emptyListPlaceHolder: emptyListPlaceHolder,
-                      items: items,
-                      decoration: decoration,
-                      unselectedColor: unselectedColor,
-                      colorator: colorator,
-                      itemsTextStyle: itemsTextStyle,
-                      selectedItemsTextStyle: selectedItemsTextStyle,
-                      backgroundColor: backgroundColor,
-                      title: title,
-                      initialValue: initialValue,
-                      barrierColor: barrierColor,
-                      buttonIcon: buttonIcon,
-                      buttonText: buttonText,
-                      cancelText: cancelText,
-                      chipDisplay: chipDisplay,
-                      closeSearchIcon: closeSearchIcon,
-                      confirmText: confirmText,
-                      initialChildSize: initialChildSize,
-                      listType: listType,
-                      maxChildSize: maxChildSize,
-                      minChildSize: minChildSize,
-                      onConfirm: onConfirm,
-                      onSelectionChanged: onSelectionChanged,
-                      searchHintStyle: searchHintStyle,
-                      searchIcon: searchIcon,
-                      searchHint: searchHint,
-                      searchTextStyle: searchTextStyle,
-                      searchable: searchable,
-                      selectedColor: selectedColor,
-                      separateSelectedItems: separateSelectedItems,
-                      shape: shape,
-                      checkColor: checkColor,
-                      clearAll: clearAll,
-                      enableClearAll: enableClearAll,
-                    checkCondition: checkCondition,
-                  );
+                emptyListPlaceHolder: emptyListPlaceHolder,
+                items: items,
+                decoration: decoration,
+                unselectedColor: unselectedColor,
+                colorator: colorator,
+                itemsTextStyle: itemsTextStyle,
+                selectedItemsTextStyle: selectedItemsTextStyle,
+                backgroundColor: backgroundColor,
+                title: title,
+                initialValue: initialValue,
+                barrierColor: barrierColor,
+                buttonIcon: buttonIcon,
+                buttonText: buttonText,
+                cancelText: cancelText,
+                chipDisplay: chipDisplay,
+                closeSearchIcon: closeSearchIcon,
+                confirmText: confirmText,
+                initialChildSize: initialChildSize,
+                listType: listType,
+                maxChildSize: maxChildSize,
+                minChildSize: minChildSize,
+                onConfirm: onConfirm,
+                onSelectionChanged: onSelectionChanged,
+                searchHintStyle: searchHintStyle,
+                searchIcon: searchIcon,
+                searchHint: searchHint,
+                searchTextStyle: searchTextStyle,
+                searchable: searchable,
+                selectedColor: selectedColor,
+                separateSelectedItems: separateSelectedItems,
+                shape: shape,
+                checkColor: checkColor,
+                clearAll: clearAll,
+                enableClearAll: enableClearAll,
+                checkCondition: checkCondition,
+              );
               return _MultiSelectBottomSheetFieldView<V?>._withState(
                   view as _MultiSelectBottomSheetFieldView<V?>, state);
             });
@@ -250,7 +250,7 @@ class _MultiSelectBottomSheetFieldView<V> extends StatefulWidget {
   final void Function(List<V>)? clearAll;
   final bool enableClearAll;
   final List<MultiSelectItem<V>>? Function(List<V>, List<MultiSelectItem<V>>)?
-  checkCondition;
+      checkCondition;
 
   _MultiSelectBottomSheetFieldView(
       {required this.items,
@@ -287,8 +287,7 @@ class _MultiSelectBottomSheetFieldView<V> extends StatefulWidget {
       this.checkColor,
       this.clearAll,
       this.enableClearAll = false,
-        this.checkCondition
-      })
+      this.checkCondition})
       : assert(!(enableClearAll == true && clearAll == null),
             'clearAll cannot be null while enableClearAll is true');
 
@@ -355,9 +354,9 @@ class __MultiSelectBottomSheetFieldViewState<V>
     List<MultiSelectItem<V>?> chipDisplayItems = [];
     chipDisplayItems = widget.checkCondition == null
         ? _selectedItems
-        .map((e) =>
-        widget.items.firstWhereOrNull((element) => e == element.value))
-        .toList()
+            .map((e) =>
+                widget.items.firstWhereOrNull((element) => e == element.value))
+            .toList()
         : widget.checkCondition!(_selectedItems, widget.items) ?? [];
     chipDisplayItems.removeWhere((element) => element == null);
     if (widget.chipDisplay != null) {
