@@ -374,18 +374,27 @@ class _MultiSelectBottomSheetState<T> extends State<MultiSelectBottomSheet<T>> {
                     ),
                     SizedBox(width: 5),
                     Visibility(
-                      visible: (_items.length > 0 &&
+                      visible: (_selectedValues.length > 0 &&
                           (widget.enableClearAll ?? false)),
                       child: Expanded(
                         child: TextButton(
-                            onPressed: () {
-                              setState(() {
-                                widget.clearAll!(_selectedValues);
-                                _selectedValues.clear();
-                              });
-                            },
-                            child: Text("CLEAR ALL",
-                                style: TextStyle(color: widget.checkColor))),
+                          onPressed: () {
+                            setState(() {
+                              widget.clearAll!(_selectedValues);
+                              _selectedValues.clear();
+                            });
+                          },
+                          child: Text(
+                            "CLEAR ALL",
+                            style: TextStyle(
+                              color: (widget.selectedColor != null &&
+                                      widget.selectedColor !=
+                                          Colors.transparent)
+                                  ? widget.selectedColor!.withOpacity(1)
+                                  : Theme.of(context).primaryColor,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     SizedBox(width: 5),
