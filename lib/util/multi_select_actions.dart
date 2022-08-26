@@ -13,6 +13,17 @@ class MultiSelectActions<T> {
     return selectedValues;
   }
 
+  List<T> onSingleItemChecked(
+      List<T> selectedValues, T itemValue, bool checked) {
+    if (checked) {
+      selectedValues.clear();
+      selectedValues.add(itemValue);
+    } else {
+      selectedValues.remove(itemValue);
+    }
+    return selectedValues;
+  }
+
   /// Pops the dialog from the navigation stack and returns the initially selected values.
   void onCancelTap(BuildContext ctx, List<T> initiallySelectedValues) {
     Navigator.pop(ctx, initiallySelectedValues);

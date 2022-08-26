@@ -27,7 +27,7 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
   final Color? Function(V)? colorator;
 
   /// An icon to display prior to the chip's label.
-  final Icon? icon;
+  final Widget? icon;
 
   /// Set a ShapeBorder. Typically a RoundedRectangularBorder.
   final ShapeBorder? shape;
@@ -48,6 +48,10 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
 
   bool? disabled;
 
+  final List? iconList;
+
+  final Widget? trailing;
+
   MultiSelectChipDisplay({
     this.items,
     this.onTap,
@@ -62,6 +66,8 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
     this.scrollBar,
     this.height,
     this.chipWidth,
+    this.iconList,
+    this.trailing,
   }) {
     this.disabled = false;
   }
@@ -81,6 +87,8 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
     this.scrollBar,
     this.height,
     this.chipWidth,
+    this.iconList,
+    this.trailing
   });
 
   @override
@@ -103,7 +111,7 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
                         scrollDirection: Axis.horizontal,
                         itemCount: items!.length,
                         itemBuilder: (ctx, index) {
-                          return _buildItem(items![index]!, context);
+                          return _buildItem(items![index]!, iconList?[index], context);
                         },
                       ),
                     )
@@ -112,13 +120,16 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
                       scrollDirection: Axis.horizontal,
                       itemCount: items!.length,
                       itemBuilder: (ctx, index) {
-                        return _buildItem(items![index]!, context);
+                        return _buildItem(items![index]!,iconList?[index], context);
                       },
                     ),
             )
           : Wrap(
               children: items != null
-                  ? items!.map((item) => _buildItem(item!, context)).toList()
+                  ? List.generate(
+                      items!.length,
+                      (index) =>
+                          _buildItem(items![index]!, iconList?[index], context))
                   : <Widget>[
                       Container(),
                     ],
@@ -126,36 +137,39 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
     );
   }
 
-  Widget _buildItem(MultiSelectItem<V> item, BuildContext context) {
+  Widget _buildItem(
+      MultiSelectItem<V> item, Widget? avatar, BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(2.0),
       child: ChoiceChip(
         shape: shape as OutlinedBorder?,
-        avatar: icon != null
-            ? Icon(
-                icon!.icon,
-                color: colorator != null && colorator!(item.value) != null
-                    ? colorator!(item.value)!.withOpacity(1)
-                    : icon!.color ?? Theme.of(context).primaryColor,
-              )
-            : null,
+        avatar: avatar,
         label: Container(
           width: chipWidth,
-          child: Text(
-            item.label,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              color: colorator != null && colorator!(item.value) != null
-                  ? textStyle != null
-                      ? textStyle!.color ?? colorator!(item.value)
-                      : colorator!(item.value)
-                  : textStyle != null && textStyle!.color != null
-                      ? textStyle!.color
-                      : chipColor != null
-                          ? chipColor!.withOpacity(1)
-                          : null,
-              fontSize: textStyle != null ? textStyle!.fontSize : null,
-            ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                item.label,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: colorator != null && colorator!(item.value) != null
+                      ? textStyle != null
+                          ? textStyle!.color ?? colorator!(item.value)
+                          : colorator!(item.value)
+                      : textStyle != null && textStyle!.color != null
+                          ? textStyle!.color
+                          : chipColor != null
+                              ? chipColor!.withOpacity(1)
+                              : null,
+                  fontSize: textStyle != null ? textStyle!.fontSize : null,
+                ),
+              ),
+              if(trailing != null) ...{
+                const SizedBox(width: 8,),
+                trailing!
+              }
+            ],
           ),
         ),
         selected: items!.contains(item),
