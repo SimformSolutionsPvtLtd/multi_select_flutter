@@ -20,7 +20,7 @@ class MultiSelectBottomSheet<T> extends StatefulWidget
   final void Function(List<T>)? onSelectionChanged;
 
   /// Fires when confirm is tapped.
-  final void Function(List<T>)? onConfirm;
+  final void Function(List<T>, [String?])? onConfirm;
 
   /// Toggles search functionality.
   final bool searchable;

@@ -383,7 +383,7 @@ class __MultiSelectDialogFieldViewState<V>
           confirmText: widget.confirmText,
           cancelText: widget.cancelText,
           separateSelectedItems: widget.separateSelectedItems,
-          onConfirm: (selected) {
+          onConfirm: (selected, [search]) {
             if (widget.state != null) {
               widget.state!.didChange(selected);
             }

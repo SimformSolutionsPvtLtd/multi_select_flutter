@@ -147,7 +147,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       buttonText: Text("Favorite Animals"),
                       title: Text("Animals"),
                       items: _items,
-                      onConfirm: (values) {
+                      onConfirm: (values, [search]) {
                         _selectedAnimals2 = values;
                       },
                       chipDisplay: MultiSelectChipDisplay(
@@ -192,7 +192,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   }
                   return null;
                 },
-                onConfirm: (values) {
+                onConfirm: (values, [search]) {
                   setState(() {
                     _selectedAnimals3 = values;
                   });

@@ -20,7 +20,7 @@ class CustomMultiSelectBottomSheet<T> extends StatefulWidget
   final void Function(List<T>)? onSelectionChanged;
 
   /// Fires when confirm is tapped.
-  final void Function(List<T>)? onConfirm;
+  final void Function(List<T>, [String?])? onConfirm;
 
   /// Toggles search functionality.
   final bool searchable;
@@ -437,7 +437,7 @@ class _CustomMultiSelectBottomSheetState<T>
                           child: ElevatedButton(
                             onPressed: () {
                               widget.onConfirmTap(
-                                  context, _selectedValues, widget.onConfirm);
+                                  context, _selectedValues, widget.onConfirm, searchController.text);
                             },
                             child: widget.confirmText ??
                                 Text(

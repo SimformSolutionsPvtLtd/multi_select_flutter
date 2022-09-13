@@ -31,7 +31,7 @@ class CustomMultiSelectBottomSheetField<V> extends FormField<List<V>> {
   final void Function(List<V>)? onSelectionChanged;
 
   /// Fires when confirm is tapped.
-  final void Function(List<V>) onConfirm;
+  final void Function(List<V>, [String?]) onConfirm;
 
   /// Toggles search functionality.
   final bool searchable;
@@ -231,7 +231,7 @@ class _MultiSelectBottomSheetFieldView<V> extends StatefulWidget {
   final List<V>? initialValue;
   final Widget? title;
   final void Function(List<V>)? onSelectionChanged;
-  final void Function(List<V>)? onConfirm;
+  final void Function(List<V>, [String?])? onConfirm;
   final bool searchable;
   final Text? confirmText;
   final Text? cancelText;
@@ -471,12 +471,12 @@ class __MultiSelectBottomSheetFieldViewState<V>
             separateSelectedItems: widget.separateSelectedItems,
             initialValue: _selectedItems,
             emptyListPlaceHolder: widget.emptyListPlaceHolder,
-            onConfirm: (selected) {
+            onConfirm: (selected, [search]) {
               if (widget.state != null) {
                 widget.state!.didChange(selected);
               }
               _selectedItems = selected;
-              if (widget.onConfirm != null) widget.onConfirm!(selected);
+              if (widget.onConfirm != null) widget.onConfirm!(selected, search);
             },
             onSelectionChanged: widget.onSelectionChanged,
             searchable: widget.searchable,
