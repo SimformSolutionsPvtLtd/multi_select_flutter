@@ -169,8 +169,7 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
             autovalidateMode: autovalidateMode,
             initialValue: initialValue ?? [],
             builder: (FormFieldState<List<V>> state) {
-              _MultiSelectBottomSheetFieldView view =
-                  _MultiSelectBottomSheetFieldView<V>(
+              final view = _MultiSelectBottomSheetFieldView<V>(
                 emptyListPlaceHolder: emptyListPlaceHolder,
                 items: items,
                 decoration: decoration,
@@ -207,8 +206,8 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
                 enableClearAll: enableClearAll,
                 checkCondition: checkCondition,
               );
-              return _MultiSelectBottomSheetFieldView<V?>._withState(
-                  view as _MultiSelectBottomSheetFieldView<V?>, state);
+              return _MultiSelectBottomSheetFieldView<V>._withState(
+                  view, state);
             });
 }
 
