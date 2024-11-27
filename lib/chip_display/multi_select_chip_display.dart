@@ -72,24 +72,23 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
     this.disabled = false;
   }
 
-  MultiSelectChipDisplay.none({
-    this.items = const [],
-    this.disabled = true,
-    this.onTap,
-    this.chipColor,
-    this.alignment,
-    this.decoration,
-    this.textStyle,
-    this.colorator,
-    this.icon,
-    this.shape,
-    this.scroll = false,
-    this.scrollBar,
-    this.height,
-    this.chipWidth,
-    this.iconList,
-    this.trailing
-  });
+  MultiSelectChipDisplay.none(
+      {this.items = const [],
+      this.disabled = true,
+      this.onTap,
+      this.chipColor,
+      this.alignment,
+      this.decoration,
+      this.textStyle,
+      this.colorator,
+      this.icon,
+      this.shape,
+      this.scroll = false,
+      this.scrollBar,
+      this.height,
+      this.chipWidth,
+      this.iconList,
+      this.trailing});
 
   @override
   Widget build(BuildContext context) {
@@ -104,14 +103,18 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
               height: height ?? MediaQuery.of(context).size.height * 0.08,
               child: scrollBar != null
                   ? Scrollbar(
-                      isAlwaysShown: scrollBar!.isAlwaysShown,
+                      thumbVisibility: scrollBar!.isAlwaysShown,
                       controller: _scrollController,
                       child: ListView.builder(
                         controller: _scrollController,
                         scrollDirection: Axis.horizontal,
                         itemCount: items!.length,
                         itemBuilder: (ctx, index) {
-                          return _buildItem(items![index]!, iconList?[index], context);
+                          return _buildItem(
+                            items![index]!,
+                            iconList?[index],
+                            context,
+                          );
                         },
                       ),
                     )
@@ -120,7 +123,8 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
                       scrollDirection: Axis.horizontal,
                       itemCount: items!.length,
                       itemBuilder: (ctx, index) {
-                        return _buildItem(items![index]!,iconList?[index], context);
+                        return _buildItem(
+                            items![index]!, iconList?[index], context);
                       },
                     ),
             )
@@ -165,8 +169,10 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
                   fontSize: textStyle != null ? textStyle!.fontSize : null,
                 ),
               ),
-              if(trailing != null) ...{
-                const SizedBox(width: 8,),
+              if (trailing != null) ...{
+                const SizedBox(
+                  width: 8,
+                ),
                 trailing!
               }
             ],
