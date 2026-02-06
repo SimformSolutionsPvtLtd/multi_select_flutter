@@ -7,8 +7,9 @@ documentation: https://github.com/CHB61/flutter-multi-select
 homepage: https://github.com/CHB61/flutter-multi-select
 
 environment:
-  sdk: '>=3.0.0 <4.0.0'
-  flutter: ">=3.0.0 <4.0.0"
+  sdk: '>=3.10.8 <4.0.0'
+  flutter: ">=3.38.9 <4.0.0"
+resolution: workspace
 
 dependencies:
   flutter:
